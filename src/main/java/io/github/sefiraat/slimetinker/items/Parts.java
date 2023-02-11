@@ -13,6 +13,8 @@ import io.github.sefiraat.slimetinker.utils.enums.ThemeItemType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 
 public final class Parts {
@@ -29,6 +31,14 @@ public final class Parts {
         ThemeItemType.CAST,
         "Part: Shovel Head",
         ThemeUtils.PASSIVE + "A cast shovel head."
+    );
+
+    public static final SlimefunItemStack PART_ROD_BASE_DUMMY = ThemeUtils.themedItemStack(
+        "PART_ROD_BASE_DUMMY",
+        SkullTextures.PART_SWORD_BLADE,
+        ThemeItemType.CAST,
+        "Part: Fishing Rod Base",
+        ThemeUtils.PASSIVE + "A cast fishing rod base."
     );
 
     public static final SlimefunItemStack PART_PICKAXE_HEAD_DUMMY = ThemeUtils.themedItemStack(
@@ -77,6 +87,22 @@ public final class Parts {
         ThemeItemType.CAST,
         "Part: Binding",
         ThemeUtils.PASSIVE + "A binging to hold parts together."
+    );
+
+    public static final SlimefunItemStack PART_TRIM_DUMMY = ThemeUtils.themedItemStack(
+        "PART_TRIM_DUMMY",
+        SkullTextures.PART_LINKS,
+        ThemeItemType.CAST,
+        "Part: Trim",
+        ThemeUtils.PASSIVE + "The trim for your fishing rod"
+    );
+
+    public static final SlimefunItemStack PART_LINE_DUMMY = ThemeUtils.themedItemStack(
+        "PART_LINE_DUMMY",
+        SkullTextures.PART_TOOL_ROD,
+        ThemeItemType.CAST,
+        "Part: Line",
+        ThemeUtils.PASSIVE + "The line for your fishing rod"
     );
 
     public static final SlimefunItemStack PART_HELM_PLATE_DUMMY = ThemeUtils.themedItemStack(
@@ -151,6 +177,14 @@ public final class Parts {
         ThemeUtils.PASSIVE + DESC_ERROR
     );
 
+    public static final SlimefunItemStack PART_ROD_BASE = ThemeUtils.themedItemStack(
+        "PART_ROD_BASE",
+        SkullTextures.PART_SWORD_BLADE,
+        ThemeItemType.PART,
+        DESC_ERROR,
+        ThemeUtils.PASSIVE + DESC_ERROR
+    );
+
     public static final SlimefunItemStack PART_PICKAXE_HEAD = ThemeUtils.themedItemStack(
         "PART_PICKAXE_HEAD",
         SkullTextures.PART_PICKAXE_HEAD,
@@ -197,6 +231,25 @@ public final class Parts {
         ThemeItemType.CRAFTING,
         "Binding Material",
         ThemeUtils.PASSIVE + "A material suitable to make binding from.",
+        ThemeUtils.PASSIVE + "This is not JUST string, experiment with",
+        ThemeUtils.PASSIVE + "similar materials."
+    );
+
+    public static final SlimefunItemStack PART_TRIM_GENERAL_DISPLAY = ThemeUtils.themedItemStack(
+        "PART_TRIM_GENERAL_DISPLAY",
+        Material.LEATHER,
+        ThemeItemType.CRAFTING,
+        "Trim Material",
+        ThemeUtils.PASSIVE + "A material suitable to make rod trim from.",
+        ThemeUtils.PASSIVE + "This is not JUST leather, experiment with",
+        ThemeUtils.PASSIVE + "other materials."
+    );
+
+    public static final SlimefunItemStack PART_LINE_GENERAL_DISPLAY = ThemeUtils.themedItemStack(
+        "PART_LINE_GENERAL_DISPLAY",
+        Material.STRING,
+        ThemeItemType.CRAFTING,
+        "Line Material",
         ThemeUtils.PASSIVE + "This is not JUST string, experiment with",
         ThemeUtils.PASSIVE + "similar materials."
     );
@@ -264,6 +317,7 @@ public final class Parts {
     public static final PartTemplate LEG_PLATE = new PartTemplate(ItemGroups.DUMMY, PART_LEG_PLATES, DummySmeltery.TYPE, new ItemStack[9], "Legging Plates");
     public static final PartTemplate BOOT_PLATE = new PartTemplate(ItemGroups.DUMMY, PART_BOOTS_PLATES, DummySmeltery.TYPE, new ItemStack[9], "Boot Plates");
     public static final PartTemplate MAIL_LINKS = new PartTemplate(ItemGroups.DUMMY, PART_MAIL_LINKS, DummySmeltery.TYPE, new ItemStack[9], "Mail Links");
+    public static final PartTemplate ROD_BASE = new PartTemplate(ItemGroups.DUMMY, PART_ROD_BASE, DummySmeltery.TYPE, new ItemStack[9], "Fishing rod base");
 
     public static void set(SlimeTinker p) {
 
@@ -278,6 +332,17 @@ public final class Parts {
             PART_BINDING_GENERAL_DISPLAY, null, PART_BINDING_GENERAL_DISPLAY,
             null, PART_BINDING_GENERAL_DISPLAY, null,
             PART_BINDING_GENERAL_DISPLAY, null, PART_BINDING_GENERAL_DISPLAY
+        }).register(p);
+        new UnplaceableBlock(ItemGroups.PARTS, PART_ROD_BASE_DUMMY, DummySmeltery.TYPE, ItemUtils.getMiddleOnlyRecipe(Casts.CAST_BASE)).register(p);
+        new UnplaceableBlock(ItemGroups.PARTS, PART_TRIM_DUMMY, DummyWorkbench.TYPE, new ItemStack[]{
+            null, PART_TRIM_GENERAL_DISPLAY, null,
+            PART_TRIM_GENERAL_DISPLAY, null, PART_TRIM_GENERAL_DISPLAY,
+            null, PART_TRIM_GENERAL_DISPLAY, null
+        }).register(p);
+        new UnplaceableBlock(ItemGroups.PARTS, PART_LINE_DUMMY, DummyWorkbench.TYPE, new ItemStack[]{
+            null, null, PART_LINE_GENERAL_DISPLAY,
+            null, null, PART_LINE_GENERAL_DISPLAY,
+            null, null, PART_LINE_GENERAL_DISPLAY
         }).register(p);
         new UnplaceableBlock(ItemGroups.PARTS, PART_HELM_PLATE_DUMMY, DummySmeltery.TYPE, ItemUtils.getMiddleOnlyRecipe(Casts.CAST_HELM_PLATE)).register(p);
         new UnplaceableBlock(ItemGroups.PARTS, PART_CHEST_PLATE_DUMMY, DummySmeltery.TYPE, ItemUtils.getMiddleOnlyRecipe(Casts.CAST_CHEST_PLATE)).register(p);
@@ -298,6 +363,8 @@ public final class Parts {
         HOE_HEAD.register(p);
         SWORD_BLADE.register(p);
         TOOL_ROD.register(p);
+
+        ROD_BASE.register(p);
 
         REPAIR_KIT.register(p);
 

@@ -43,6 +43,7 @@ public final class TinkersMaterialsCore {
         .setTraitToolRod(Traits.CORE_GOLD_ROD)
         .setTraitArmorPlates(Traits.CORE_GOLD_PLATES)
         .setTraitArmorLinks(Traits.CORE_GOLD_LINKS)
+        .setTraitRodBase(Traits.CORE_GOLD_BASE)
         .setFormNugget(Material.GOLD_NUGGET.toString())
         .setFormIngot(Material.GOLD_INGOT.toString())
         .setFormBlock(Material.GOLD_BLOCK.toString())
@@ -65,6 +66,17 @@ public final class TinkersMaterialsCore {
         .setFormBlock(Materials.BLOCK_CAST_COPPER.getItemId())
         .setFormDust(SlimefunItems.COPPER_DUST.getItemId())
         .build();
+
+    public static final TinkerMaterial EMERALD = new TinkerMaterial(Ids.EMERALD, new ItemStack(Material.EMERALD), "#ffffff")
+        .setFormTrim(Material.EMERALD.toString())
+        .setTraitRodTrim(Traits.CORE_EMERALD_TRIM)
+        .setTraidRodLine(Traits.CORE_COPPER_WIRE_LINE)
+        .build();
+
+    //public static final TinkerMaterial COPPER_WIRE = new TinkerMaterial(Ids.COPPER_WIRE, SlimefunItems.COPPER_WIRE, "#fffffe")
+    //    .setFormLine(Material.COPPER_INGOT.toString())
+    //    .setTraidRodLine(Traits.CORE_COPPER_WIRE_LINE)
+    //    .build();
 
     private static final TinkerMaterial LEAD = new TinkerMaterial(Ids.LEAD, SlimefunItems.LEAD_DUST, "#9043ba")
         .setLiquidTexture(SkullTextures.ALLOY_PURPLE)
@@ -554,6 +566,8 @@ public final class TinkersMaterialsCore {
         .build();
 
     static {
+        //CM_MAP.put(Ids.COPPER_WIRE, COPPER_WIRE);
+        CM_MAP.put(Ids.EMERALD, EMERALD);
         CM_MAP.put(Ids.IRON, IRON);
         CM_MAP.put(Ids.GOLD, GOLD);
         CM_MAP.put(Ids.COPPER, COPPER);

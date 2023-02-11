@@ -94,6 +94,19 @@ public final class TickEvents {
         increaseEffect(PotionEffectType.GLOWING, friend.getPotionEffects());
     }
 
+    public static void baseGold(EventFriend friend) {
+        increaseEffect(PotionEffectType.GLOWING, friend.getPotionEffects());
+    }
+
+    public static void trimEmerald(EventFriend friend) {
+        increaseEffect(PotionEffectType.LUCK, friend.getPotionEffects());
+    }
+
+    public static void lineCopperWire(EventFriend friend) {
+        friend.setPlayerExpMod(friend.getPlayerExpMod() + 4);
+    }
+
+
     public static void binderTwistingVine(EventFriend friend) {
         for (Entity entity : friend.getPlayer().getNearbyEntities(5, 5, 5)) {
             if (entity instanceof Item) {

@@ -14,6 +14,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -70,6 +71,23 @@ public class ToolTemplate extends SlimefunItem implements NotPlaceable {
         PersistentDataAPI.setString(im, Keys.TOOL_INFO_BINDER_MATERIAL, toolDefinition.getBinderMaterial());
         PersistentDataAPI.setString(im, Keys.TOOL_INFO_ROD_MATERIAL, toolDefinition.getRodMaterial());
         im.setDisplayName(getName(toolDefinition));
+        itemStack.setItemMeta(im);
+        ItemUtils.rebuildTinkerLore(itemStack);
+        return itemStack;
+    }
+
+    public ItemStack getStack(RodDefinition rodDefinition) {
+
+        ItemStack itemStack = this.getItem().clone();
+
+        itemStack.setType(Material.FISHING_ROD);
+        ItemMeta im = itemStack.getItemMeta();
+        Experience.setupExpNew(im);
+        PersistentDataAPI.setString(im, Keys.ROD_INFO_IS_ROD, "Y");
+        PersistentDataAPI.setString(im, Keys.ROD_INFO_BASE_MATERIAL, rodDefinition.getBaseMaterial());
+        PersistentDataAPI.setString(im, Keys.ROD_INFO_TRIM_MATERIAL, rodDefinition.getTrimMaterial());
+        PersistentDataAPI.setString(im, Keys.ROD_INFO_LINE_MATERIAL, rodDefinition.getLineMaterial());
+        im.setDisplayName(RodTemplate.getName(rodDefinition));
         itemStack.setItemMeta(im);
         ItemUtils.rebuildTinkerLore(itemStack);
         return itemStack;

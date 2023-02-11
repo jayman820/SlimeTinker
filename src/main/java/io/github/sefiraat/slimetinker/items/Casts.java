@@ -1,5 +1,6 @@
 package io.github.sefiraat.slimetinker.items;
 
+import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.slimetinker.SlimeTinker;
 import io.github.sefiraat.slimetinker.itemgroups.ItemGroups;
 import io.github.sefiraat.slimetinker.items.tinkermaterials.TinkerMaterialManager;
@@ -11,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 
 public final class Casts {
@@ -199,6 +201,17 @@ public final class Casts {
             ThemeUtils.CLICK_INFO + INPUT_DESC + ChatColor.WHITE + TinkerMaterialManager.AMOUNT_KIT + UNIT_DESC,
             ThemeUtils.CLICK_INFO + OUTPUT_DESC + ChatColor.WHITE + "1 Repair Kit"
         );
+    public static final SlimefunItemStack CAST_BASE =
+        ThemeUtils.themedItemStack(
+            "CAST_BASE",
+            Material.GRAY_CARPET,
+            ThemeItemType.CAST,
+            "Cast: Fishing Rod Base",
+            ThemeUtils.PASSIVE + CAST_DESC,
+            "",
+            ThemeUtils.CLICK_INFO + INPUT_DESC + ChatColor.WHITE + TinkerMaterialManager.AMOUNT_ROD_BASE + UNIT_DESC,
+            ThemeUtils.CLICK_INFO + OUTPUT_DESC + ChatColor.WHITE + "1 Fishing Rod Base"
+        );
     protected static final ItemStack[] RECIPE_CAST_NUGGET = new ItemStack[]{
         new ItemStack(Material.GOLD_INGOT, 2), new ItemStack(Material.IRON_NUGGET), null,
         null, null, null,
@@ -280,6 +293,12 @@ public final class Casts {
         null, null, null
     };
 
+    protected static final ItemStack[] RECIPE_CAST_BASE = new ItemStack[]{
+        new SlimefunItemStack(SlimefunItems.BRASS_INGOT, 2), Dies.DIE_ROD_BASE, null,
+        null, null, null,
+        null, null, null
+    };
+
     public static void set(SlimeTinker p) {
 
         new UnplaceableBlock(ItemGroups.CASTS, CAST_NUGGET, DummySmeltery.TYPE, RECIPE_CAST_NUGGET).register(p);
@@ -298,6 +317,6 @@ public final class Casts {
         new UnplaceableBlock(ItemGroups.CASTS, CAST_BOOT_PLATE, DummySmeltery.TYPE, RECIPE_CAST_BOOT_PLATE).register(p);
         new UnplaceableBlock(ItemGroups.CASTS, CAST_MAIL_LINK, DummySmeltery.TYPE, RECIPE_CAST_MAIL_LINK).register(p);
         new UnplaceableBlock(ItemGroups.CASTS, CAST_REPAIRKIT, DummySmeltery.TYPE, RECIPE_CAST_REPAIR_KIT).register(p);
-
+        new UnplaceableBlock(ItemGroups.CASTS, CAST_BASE, DummySmeltery.TYPE, RECIPE_CAST_BASE).register(p);
     }
 }

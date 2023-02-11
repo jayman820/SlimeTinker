@@ -16,6 +16,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -128,6 +129,11 @@ public final class ItemUtils {
             || partClass.equals(Ids.LINKS);
     }
 
+    public static boolean partIsRod(@Nonnull String partClass) {
+        return partClass.equals(Ids.BASE)
+            || partClass.equals(Ids.TRIM)
+            || partClass.equals(Ids.LINE);
+    }
     /**
      * Gets the part's type (Pick, Shovel // Helm, Chest) etc.)
      *
@@ -145,6 +151,8 @@ public final class ItemUtils {
             rebuildToolLore(itemStack);
         } else if (isArmour(itemStack)) {
             rebuildArmourLore(itemStack);
+        } else if (isRod(itemStack)) {
+            rebuildRodLore(itemStack);
         }
     }
 
@@ -233,6 +241,56 @@ public final class ItemUtils {
         for (Map.Entry<String, Integer> entry : mapLevels.entrySet()) {
             int level = entry.getValue();
             Mod mod = Modifications.getModificationDefinitionsArmour().get(entry.getKey());
+            if (mod.getRequirementMap().containsKey(level + 1)) {
+                String amountRequired = String.valueOf(mod.getRequirementMap().get(level + 1));
+                lore.add(ThemeUtils.CLICK_INFO + ThemeUtils.toTitleCase(entry.getKey()) + " Level " + entry.getValue() + ThemeUtils.PASSIVE + " - (" + mapAmounts.get(entry.getKey()) + "/" + amountRequired + ")");
+            } else {
+                lore.add(ThemeUtils.CLICK_INFO + ThemeUtils.toTitleCase(entry.getKey()) + " Level " + entry.getValue() + ThemeUtils.PASSIVE + " - (MAX)");
+            }
+        }
+        if (!mapLevels.isEmpty()) {
+            lore.add(ThemeUtils.getLine());
+        }
+
+        im.setLore(lore);
+        itemStack.setItemMeta(im);
+    }
+
+    public static void rebuildRodLore(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        assert im != null;
+        PersistentDataContainer c = im.getPersistentDataContainer();
+        List<String> lore = new ArrayList<>();
+
+        String matBase = getRodBaseMaterial(c);
+        String matTrim = getRodTrimMaterial(c);
+        String matLine = getRodLineMaterial(c);
+
+        //General material info
+        lore.add(ThemeUtils.getLine());
+        lore.add(ThemeUtils.CLICK_INFO + "B: " + formatMaterialName(matBase));
+        lore.add(ThemeUtils.CLICK_INFO + "T: " + formatMaterialName(matTrim));
+        lore.add(ThemeUtils.CLICK_INFO + "L: " + formatMaterialName(matLine));
+        lore.add(ThemeUtils.getLine());
+
+        // Material properties
+        lore.add(formatPropertyName(matBase, TinkerMaterialManager.getTraitName(matBase, TraitPartType.BASE)));
+        lore.add(formatPropertyName(matTrim, TinkerMaterialManager.getTraitName(matTrim, TraitPartType.TRIM)));
+        lore.add(formatPropertyName(matLine, TinkerMaterialManager.getTraitName(matLine, TraitPartType.LINE)));
+        lore.add(ThemeUtils.getLine());
+
+        // Exp / Leveling / Mod Slot information
+        lore.add(getLoreExp(c));
+        lore.add(getLoreModSlots(c));
+        lore.add(ThemeUtils.getLine());
+
+        // Active Mods
+        Map<String, Integer> mapAmounts = Modifications.getModificationMapTool(itemStack);
+        Map<String, Integer> mapLevels = Modifications.getAllModLevels(itemStack);
+
+        for (Map.Entry<String, Integer> entry : mapLevels.entrySet()) {
+            int level = entry.getValue();
+            Mod mod = Modifications.getModificationDefinitionsTool().get(entry.getKey());
             if (mod.getRequirementMap().containsKey(level + 1)) {
                 String amountRequired = String.valueOf(mod.getRequirementMap().get(level + 1));
                 lore.add(ThemeUtils.CLICK_INFO + ThemeUtils.toTitleCase(entry.getKey()) + " Level " + entry.getValue() + ThemeUtils.PASSIVE + " - (" + mapAmounts.get(entry.getKey()) + "/" + amountRequired + ")");
@@ -349,6 +407,38 @@ public final class ItemUtils {
     }
 
     @Nullable
+    public static String getRodBaseMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getRodBaseMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable public static String getRodBaseMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_BASE_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
+    public static String getRodTrimMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getRodTrimMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable
+    public static String getRodTrimMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_TRIM_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
+    public static String getRodLineMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getRodLineMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable
+    public static String getRodLineMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_LINE_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
     public static String getToolBindingMaterial(@Nonnull PersistentDataContainer c) {
         return c.get(Keys.TOOL_INFO_BINDER_MATERIAL, PersistentDataType.STRING);
     }
@@ -362,6 +452,39 @@ public final class ItemUtils {
     @Nullable
     public static String getToolRodMaterial(@Nonnull PersistentDataContainer c) {
         return c.get(Keys.TOOL_INFO_ROD_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
+    public static String getBaseMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getBaseMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable
+    public static String getBaseMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_BASE_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
+    public static String getLineMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getLineMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable
+    public static String getLineMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_LINE_MATERIAL, PersistentDataType.STRING);
+    }
+
+    @Nullable
+    public static String getTrimMaterial(@Nonnull ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        return getTrimMaterial(im.getPersistentDataContainer());
+    }
+
+    @Nullable
+    public static String getTrimMaterial(@Nonnull PersistentDataContainer c) {
+        return c.get(Keys.ROD_INFO_TRIM_MATERIAL, PersistentDataType.STRING);
     }
 
     @Nullable
@@ -453,6 +576,16 @@ public final class ItemUtils {
             itemStack.hasItemMeta() &&
             itemStack.getItemMeta().getPersistentDataContainer().has(
                 Keys.TOOL_INFO_TOOL_TYPE,
+                PersistentDataType.STRING
+            );
+    }
+
+    public static boolean isRod(@Nullable ItemStack itemStack) {
+        return itemStack != null &&
+            itemStack.getType() != Material.AIR &&
+            itemStack.hasItemMeta() &&
+            itemStack.getItemMeta().getPersistentDataContainer().has(
+                Keys.ROD_INFO_FISHINGROD_TYPE,
                 PersistentDataType.STRING
             );
     }

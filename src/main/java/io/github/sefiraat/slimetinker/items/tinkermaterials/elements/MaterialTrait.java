@@ -13,6 +13,8 @@ import io.github.sefiraat.slimetinker.utils.ThemeUtils;
 import io.github.sefiraat.slimetinker.utils.enums.ThemeItemType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -213,6 +215,31 @@ public class MaterialTrait {
         "Part: Mail Links",
         ThemeUtils.PASSIVE + "Any 'Mail Link' item."
     );
+
+    public static final SlimefunItemStack PROP_BASE = ThemeUtils.themedItemStack(
+        "PROP_BASE",
+        SkullTextures.PART_SWORD_BLADE,
+        ThemeItemType.PART,
+        "Part: Rod Base",
+        ThemeUtils.PASSIVE + "Any 'Rod Base' item."
+    );
+
+    public static final SlimefunItemStack PROP_TRIM = ThemeUtils.themedItemStack(
+        "PROP_TRIM",
+        SkullTextures.PART_LINKS,
+        ThemeItemType.PART,
+        "Part: Rod Trim",
+        ThemeUtils.PASSIVE + "Any 'Rod Trim' item."
+    );
+
+    public static final SlimefunItemStack PROP_LINE = ThemeUtils.themedItemStack(
+        "PROP_LINE",
+        SkullTextures.PART_TOOL_ROD,
+        ThemeItemType.PART,
+        "Part: Rod Line",
+        ThemeUtils.PASSIVE + "Any 'Rod Line' item."
+    );
+
 
     @Nonnull
     protected static ItemStack[] propRecipe(SlimefunItemStack part, ItemStack stack) {

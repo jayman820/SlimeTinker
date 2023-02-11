@@ -2,6 +2,7 @@ package io.github.sefiraat.slimetinker.items.workstations.tooltable;
 
 import io.github.mooy1.infinitylib.machines.TickingMenuBlock;
 import io.github.sefiraat.slimetinker.items.Guide;
+import io.github.sefiraat.slimetinker.items.templates.RodDefinition;
 import io.github.sefiraat.slimetinker.items.templates.ToolDefinition;
 import io.github.sefiraat.slimetinker.utils.GUIItems;
 import io.github.sefiraat.slimetinker.utils.Ids;
@@ -17,6 +18,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Breedable;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -62,15 +64,42 @@ public class ToolTable extends TickingMenuBlock {
             if (!validateClass(head, Ids.HEAD) || !validateBinder(binding) || !validateClass(rod, Ids.ROD)) { // One or more items are not the correct part
                 clearPreview(blockMenu);
                 return;
+            } else if (!validateClass(head, Ids.BASE) || !validateLine(rod) || !validateTrim(binding)) {
+                clearPreview(blockMenu);
+                return;
             }
 
-            // All items are valid, lets preview the item!
-            blockMenu.replaceExistingItem(PREVIEW_SLOT, getTool(head, binding, rod));
+            if (validateClass(head, Ids.BASE)) {
+                blockMenu.replaceExistingItem(PREVIEW_SLOT, getRod(head, binding, rod));
+            } else {
+                // All items are valid, lets preview the item!
+                blockMenu.replaceExistingItem(PREVIEW_SLOT, getTool(head, binding, rod));
+            }
         }
     }
 
     protected void clearPreview(BlockMenu blockMenu) {
         blockMenu.replaceExistingItem(PREVIEW_SLOT, GUIItems.MENU_PREVIEW);
+    }
+
+    protected ItemStack getRod(@Nonnull ItemStack base, @Nonnull ItemStack trim, @Nonnull ItemStack line) {
+
+        ItemMeta bm = base.getItemMeta();
+        ItemMeta tm = base.getItemMeta();
+        ItemMeta lm = base.getItemMeta();
+
+        ItemStack rod;
+
+        RodDefinition rodDefinition = new RodDefinition(
+            bm.getPersistentDataContainer().get(Keys.PART_CLASS, PersistentDataType.STRING),
+            bm.getPersistentDataContainer().get(Keys.PART_TYPE, PersistentDataType.STRING),
+            bm.getPersistentDataContainer().get(Keys.PART_MATERIAL, PersistentDataType.STRING),
+            tm.getPersistentDataContainer().get(Keys.PART_MATERIAL, PersistentDataType.STRING),
+            lm.getPersistentDataContainer().get(Keys.PART_MATERIAL, PersistentDataType.STRING)
+        );
+
+        rod = Guide.ROD.getStack(rodDefinition);
+        return rod;
     }
 
     protected ItemStack getTool(@Nonnull ItemStack head, @Nonnull ItemStack binding, @Nonnull ItemStack rod) {
@@ -160,6 +189,22 @@ public class ToolTable extends TickingMenuBlock {
         }
         String name = ItemUtils.getItemName(itemStack);
         return name != null && name.startsWith("PART_BINDING_");
+    }
+
+    protected boolean validateTrim(ItemStack itemStack) {
+        if (itemStack == null || !itemStack.hasItemMeta()) { // No item
+            return false;
+        }
+        String name = ItemUtils.getItemName(itemStack);
+        return name != null && name.startsWith("PART_TRIM_");
+    }
+
+    protected boolean validateLine(ItemStack itemStack) {
+        if (itemStack == null || !itemStack.hasItemMeta()) { // No item
+            return false;
+        }
+        String name = ItemUtils.getItemName(itemStack);
+        return name != null && name.startsWith("PART_LINE_");
     }
 
     protected void craft(BlockMenu blockMenu, Player player) {

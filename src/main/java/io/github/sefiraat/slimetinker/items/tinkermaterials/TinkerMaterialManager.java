@@ -59,6 +59,7 @@ public class TinkerMaterialManager {
     public static final int AMOUNT_ARM_LEG = AMOUNT_INGOT * 7;
     public static final int AMOUNT_ARM_BOOT = AMOUNT_INGOT * 4;
     public static final int AMOUNT_ARM_LINKS = AMOUNT_INGOT * 2;
+    public static final int AMOUNT_ROD_BASE = AMOUNT_INGOT * 3;
 
     // Dies (Items that makes casts and then burn away)
     protected static final Map<TinkerMaterial, ItemStack> MAP_DIE_NUGGET = new HashMap<>();
@@ -77,6 +78,7 @@ public class TinkerMaterialManager {
     protected static final Map<TinkerMaterial, ItemStack> MAP_DIE_ARMOUR_PLATES_BOOTS = new HashMap<>();
     protected static final Map<TinkerMaterial, ItemStack> MAP_DIE_ARMOUR_MAIL = new HashMap<>();
     protected static final Map<TinkerMaterial, ItemStack> MAP_DIE_REPAIRKIT = new HashMap<>();
+    protected static final Map<TinkerMaterial, ItemStack> MAP_DIE_BASE = new HashMap<>();
 
     // Casts (Items that cast metals and remain)
     protected static final Map<TinkerMaterial, ItemStack> MAP_CAST_NUGGET = new HashMap<>();
@@ -95,6 +97,7 @@ public class TinkerMaterialManager {
     protected static final Map<TinkerMaterial, ItemStack> MAP_CAST_ARMOUR_PLATES_BOOTS = new HashMap<>();
     protected static final Map<TinkerMaterial, ItemStack> MAP_CAST_ARMOUR_MAIL = new HashMap<>();
     protected static final Map<TinkerMaterial, ItemStack> MAP_CAST_REPAIRKIT = new HashMap<>();
+    protected static final Map<TinkerMaterial, ItemStack> MAP_CAST_BASE = new HashMap<>();
 
     private static final Map<String, TinkerMaterial> MAP = new HashMap<>();
     private static final String VALIDATE_TRAIT_MESSAGE = "The material {0} does not have a compatible trait type of {1}";
@@ -267,6 +270,7 @@ public class TinkerMaterialManager {
         return MAP.get(id).getColor();
     }
 
+    //TODO:continu from here
     public static String getTraitName(String id, TraitPartType partType) {
         TinkerMaterial tinkerMaterial = MAP.get(id);
         if (partType == TraitPartType.HEAD) {
@@ -305,6 +309,24 @@ public class TinkerMaterialManager {
                 MessageFormat.format(VALIDATE_TRAIT_MESSAGE, id, partType)
             );
             return tinkerMaterial.getTraitArmorLinks().getTraitName();
+        } else if (partType == TraitPartType.BASE) {
+            Preconditions.checkNotNull(
+                tinkerMaterial.getTraitRodBase(),
+                MessageFormat.format(VALIDATE_TRAIT_MESSAGE, id, partType)
+            );
+            return  tinkerMaterial.getTraitRodBase().getTraitName();
+        } else if (partType == TraitPartType.LINE) {
+            Preconditions.checkNotNull(
+                tinkerMaterial.getTraitRodLine(),
+                MessageFormat.format(VALIDATE_TRAIT_MESSAGE, id, partType)
+            );
+            return tinkerMaterial.getTraitRodLine().getTraitName();
+        } else if (partType == TraitPartType.TRIM) {
+            Preconditions.checkNotNull(
+                tinkerMaterial.getTraitRodTrim(),
+                MessageFormat.format(VALIDATE_TRAIT_MESSAGE, id, partType)
+            );
+            return tinkerMaterial.getTraitRodTrim().getTraitName();
         }
         return "Error";
     }
@@ -336,6 +358,7 @@ public class TinkerMaterialManager {
         MAP_DIE_ARMOUR_PLATES_LEGGINGS.put(TinkerMaterialManager.getById(Ids.BRASS), Casts.CAST_LEG_PLATE);
         MAP_DIE_ARMOUR_PLATES_BOOTS.put(TinkerMaterialManager.getById(Ids.BRASS), Casts.CAST_BOOT_PLATE);
         MAP_DIE_ARMOUR_MAIL.put(TinkerMaterialManager.getById(Ids.BRASS), Casts.CAST_MAIL_LINK);
+        MAP_DIE_BASE.put(TinkerMaterialManager.getById(Ids.BRASS), Casts.CAST_BASE);
     }
 
     private void fillCastingDies() {
@@ -378,6 +401,10 @@ public class TinkerMaterialManager {
         castingRecipes.put(
             Dies.DIE_SWORD_BLADE.getItemId(),
             new CastResult(Dies.DIE_SWORD_BLADE.getItemId(), AMOUNT_CAST, MAP_DIE_SWORDBLADE, true)
+        );
+        castingRecipes.put(
+            Dies.DIE_ROD_BASE.getItemId(),
+            new CastResult(Dies.DIE_ROD_BASE.getItemId(), AMOUNT_CAST, MAP_DIE_BASE, true)
         );
         castingRecipes.put(
             Dies.DIE_TOOL_ROD.getItemId(),
@@ -471,6 +498,14 @@ public class TinkerMaterialManager {
             new CastResult(Casts.CAST_SWORDBLADE.getItemId(),
                            AMOUNT_SWORDBLADE,
                            MAP_CAST_SWORDBLADE,
+                           false
+            )
+        );
+        castingRecipes.put(
+            Casts.CAST_BASE.getItemId(),
+            new CastResult(Casts.CAST_BASE.getItemId(),
+                           AMOUNT_ROD_BASE,
+                           MAP_CAST_BASE,
                            false
             )
         );

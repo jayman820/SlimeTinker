@@ -9,6 +9,8 @@ import io.github.sefiraat.slimetinker.utils.enums.ThemeItemType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Slime;
 import org.bukkit.inventory.ItemStack;
 
 public final class Dies {
@@ -56,6 +58,14 @@ public final class Dies {
             SkullTextures.PART_SWORD_BLADE,
             ThemeItemType.CAST,
             "Die: Stone Sword Head",
+            ThemeUtils.PASSIVE + DIE_DESC
+        );
+    public static final SlimefunItemStack DIE_ROD_BASE =
+        ThemeUtils.themedItemStack(
+            "DIE_ROD_BASE",
+            SkullTextures.PART_SWORD_BLADE,
+            ThemeItemType.CAST,
+            "Die: Stone Rod Base",
             ThemeUtils.PASSIVE + DIE_DESC
         );
     public static final SlimefunItemStack DIE_TOOL_ROD =
@@ -174,6 +184,11 @@ public final class Dies {
         null, new ItemStack(Material.OBSIDIAN), null,
         null, null, null
     };
+    protected static final ItemStack[] RECIPE_DIE_BASE = new ItemStack[]{
+        null, null, new ItemStack(Material.COBBLESTONE),
+        null, new ItemStack(Material.COBBLESTONE), null,
+        new ItemStack(Material.COBBLESTONE), null
+    };
 
     public static void set(SlimeTinker p) {
         new UnplaceableBlock(ItemGroups.CASTS, DIE_SHOVEL_HEAD, Workbench.TYPE, RECIPE_DIE_SHOVEL_HEAD).register(p);
@@ -188,5 +203,6 @@ public final class Dies {
         new UnplaceableBlock(ItemGroups.CASTS, DIE_LEG_PLATE, Workbench.TYPE, RECIPE_DIE_LEG_PLATE).register(p);
         new UnplaceableBlock(ItemGroups.CASTS, DIE_BOOT_PLATE, Workbench.TYPE, RECIPE_DIE_BOOT_PLATE).register(p);
         new UnplaceableBlock(ItemGroups.CASTS, DIE_MAIL_LINK, Workbench.TYPE, RECIPE_DIE_MAIL_LINKS).register(p);
+        new UnplaceableBlock(ItemGroups.CASTS, DIE_ROD_BASE, Workbench.TYPE, RECIPE_DIE_BASE).register(p);
     }
 }

@@ -7,6 +7,8 @@ public final class Ids {
     }
 
     // Vanilla + Core SF + Tinkers
+    public static final String EMERALD = "EMERALD";
+    public static final String COPPER_WIRE = "COPPER_WIRE";
     public static final String IRON = "IRON";
     public static final String GOLD = "GOLD";
     public static final String COPPER = "COPPER";
@@ -125,6 +127,9 @@ public final class Ids {
     public static final String PLATE = "PLATE";
     public static final String GAMBESON = "GAMBESON";
     public static final String LINKS = "LINKS";
+    public static final String BASE = "BASE";
+    public static final String LINE = "LINE";
+    public static final String TRIM = "TRIM";
 
     public static final String SHOVEL = "SHOVEL";
     public static final String PICKAXE = "PICK";

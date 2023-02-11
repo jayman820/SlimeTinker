@@ -5,5 +5,6 @@ public enum ActiveFriendElement {
     HELMET,
     CHESTPLATE,
     LEGGINGS,
-    BOOTS
+    BOOTS,
+    ROD
 }

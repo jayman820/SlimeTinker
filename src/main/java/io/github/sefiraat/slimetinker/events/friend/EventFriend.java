@@ -36,6 +36,8 @@ public class EventFriend {
     private ItemStack leggings;
     @Nullable
     private ItemStack boots;
+    @Nullable
+    private ItemStack rod;
     private Player player;
     /**
      * The block broken in BlockBreakEvents
@@ -126,6 +128,11 @@ public class EventFriend {
     public void setEventType(TraitEventType eventType) {
         this.eventType = eventType;
     }
+
+    public void setRod(@Nullable ItemStack rod) { this.rod = rod; }
+
+    @Nullable
+    public ItemStack getRod() { return rod; }
 
     @Nullable
     public ItemStack getTool() {

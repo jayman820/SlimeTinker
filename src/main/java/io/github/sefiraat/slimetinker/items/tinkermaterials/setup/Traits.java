@@ -2706,6 +2706,33 @@ public final class Traits {
         )
         .addConsumer(TraitEventType.TICK, TickEvents::plateDaxiRegeneration);
 
+    public static final MaterialTrait CORE_GOLD_BASE = new MaterialTrait()
+        .setPartType(MaterialTrait.PROP_BASE)
+        .setAddedBy(SupportedPluginsManager.CORE_NOTE)
+        .setTraitName("All that Glitters")
+        .setLore(
+            "Makes you all shiny..."
+        )
+        .addConsumer(TraitEventType.TICK, TickEvents::baseGold);
+
+    public static final MaterialTrait CORE_EMERALD_TRIM = new MaterialTrait()
+        .setPartType(MaterialTrait.PROP_TRIM)
+        .setAddedBy(SupportedPluginsManager.CORE_NOTE)
+        .setTraitName("Lucky")
+        .setLore(
+            "Makes you lucky..."
+        )
+        .addConsumer(TraitEventType.TICK, TickEvents::trimEmerald);
+
+    public static final MaterialTrait CORE_COPPER_WIRE_LINE = new MaterialTrait()
+        .setPartType(MaterialTrait.PROP_LINE)
+        .setAddedBy(SupportedPluginsManager.CORE_NOTE)
+        .setTraitName("Knowledgable")
+        .setLore(
+            "+50% EXP"
+        )
+        .addConsumer(TraitEventType.TICK, TickEvents::lineCopperWire);
+
     // endregion
 
     // region Networks
@@ -2728,6 +2755,4 @@ public final class Traits {
             "Will only work on a helmet."
         )
         .addConsumer(TraitEventType.INTERACT, InteractionEvents::linksUltimaninium);
-
-    // endregion
 }

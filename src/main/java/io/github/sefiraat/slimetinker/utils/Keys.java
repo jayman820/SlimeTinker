@@ -4,6 +4,7 @@ import io.github.sefiraat.slimetinker.SlimeTinker;
 import org.bukkit.NamespacedKey;
 
 import javax.annotation.Nonnull;
+import javax.naming.Name;
 
 public final class Keys {
 
@@ -51,6 +52,13 @@ public final class Keys {
     public static final NamespacedKey TOOL_INFO_HEAD_MATERIAL = create("ST_Material_Head");
     public static final NamespacedKey TOOL_INFO_BINDER_MATERIAL = create("ST_Material_Binder");
     public static final NamespacedKey TOOL_INFO_ROD_MATERIAL = create("ST_Material_Rod");
+
+    //Rod Information
+    public static final NamespacedKey ROD_INFO_IS_ROD = create("ST_Rod");
+    public static final NamespacedKey ROD_INFO_FISHINGROD_TYPE = create("ST_FishingRod_Type");
+    public static final NamespacedKey ROD_INFO_BASE_MATERIAL = create("ST_Material_Base");
+    public static final NamespacedKey ROD_INFO_TRIM_MATERIAL = create("ST_Material_Trim");
+    public static final NamespacedKey ROD_INFO_LINE_MATERIAL = create("ST_Material_Line");
 
     // Armour information
     public static final NamespacedKey ARMOUR_INFO_IS_ARMOUR = create("ST_Armour");

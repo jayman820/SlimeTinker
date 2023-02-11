@@ -1,8 +1,10 @@
 package io.github.sefiraat.slimetinker.items;
 
+import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.slimetinker.SlimeTinker;
 import io.github.sefiraat.slimetinker.itemgroups.ItemGroups;
 import io.github.sefiraat.slimetinker.items.templates.ArmourTemplate;
+import io.github.sefiraat.slimetinker.items.templates.RodTemplate;
 import io.github.sefiraat.slimetinker.items.templates.ToolTemplate;
 import io.github.sefiraat.slimetinker.items.templates.ToolTemplateExplosive;
 import io.github.sefiraat.slimetinker.items.workstations.armourtable.DummyArmourTable;
@@ -14,6 +16,8 @@ import io.github.sefiraat.slimetinker.utils.enums.ThemeItemType;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import org.bukkit.Material;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -84,6 +88,16 @@ public final class Guide {
         ThemeItemType.TOOL,
         "Tinker's Sword",
         ThemeUtils.PASSIVE + "A sword formed of three parts.",
+        ThemeUtils.PASSIVE + "Tinker's tools can level up and be",
+        ThemeUtils.PASSIVE + "given extra properties and modifiers."
+    );
+
+    public static final SlimefunItemStack TOOL_FISHING_ROD_DUMMY = ThemeUtils.themedItemStack(
+        "TOOL_FISHING_ROD_DUMMY",
+        Material.FISHING_ROD,
+        ThemeItemType.TOOL,
+        "Tinker's Fishing Rod",
+        ThemeUtils.PASSIVE + "A fishing rod formed of three paets.",
         ThemeUtils.PASSIVE + "Tinker's tools can level up and be",
         ThemeUtils.PASSIVE + "given extra properties and modifiers."
     );
@@ -180,6 +194,14 @@ public final class Guide {
         ThemeUtils.PASSIVE + DESC_ERROR
     );
 
+    public static final SlimefunItemStack TOOL_FISHING_ROD = ThemeUtils.themedItemStack(
+        "TOOL_FISHING_ROD",
+        SkullTextures.PART_TOOL_ROD,
+        ThemeItemType.PART,
+        DESC_ERROR,
+        ThemeUtils.PASSIVE + DESC_ERROR
+    );
+
     public static final SlimefunItemStack TOOL_AXE_EXP = ThemeUtils.themedItemStack(
         "TOOL_AXE_EXP",
         SkullTextures.PART_AXE_HEAD,
@@ -214,6 +236,14 @@ public final class Guide {
 
     public static final SlimefunItemStack TOOL_SWORD_EXP = ThemeUtils.themedItemStack(
         "TOOL_SWORD_EXP",
+        SkullTextures.PART_SWORD_BLADE,
+        ThemeItemType.PART,
+        DESC_ERROR,
+        ThemeUtils.PASSIVE + DESC_ERROR
+    );
+
+    public static final SlimefunItemStack TOOL_FISHING_ROD_EXP = ThemeUtils.themedItemStack(
+        "TOOL_FISHING_ROD_EXP",
         SkullTextures.PART_SWORD_BLADE,
         ThemeItemType.PART,
         DESC_ERROR,
@@ -277,6 +307,7 @@ public final class Guide {
     public static final ToolTemplate AXE = new ToolTemplate(ItemGroups.DUMMY, TOOL_AXE, DummyToolTable.TYPE, new ItemStack[9]);
     public static final ToolTemplate HOE = new ToolTemplate(ItemGroups.DUMMY, TOOL_HOE, DummyToolTable.TYPE, new ItemStack[9]);
     public static final ToolTemplate SWORD = new ToolTemplate(ItemGroups.DUMMY, TOOL_SWORD, DummyToolTable.TYPE, new ItemStack[9]);
+    public static final RodTemplate ROD = new RodTemplate(ItemGroups.DUMMY, TOOL_FISHING_ROD, DummyToolTable.TYPE, new ItemStack[9]);
     public static final ToolTemplateExplosive EXP_SHOVEL = new ToolTemplateExplosive(ItemGroups.DUMMY, TOOL_SHOVEL_EXP, DummyToolTable.TYPE, new ItemStack[9]);
     public static final ToolTemplateExplosive EXP_PICKAXE = new ToolTemplateExplosive(ItemGroups.DUMMY, TOOL_PICKAXE_EXP, DummyToolTable.TYPE, new ItemStack[9]);
     public static final ToolTemplateExplosive EXP_AXE = new ToolTemplateExplosive(ItemGroups.DUMMY, TOOL_AXE_EXP, DummyToolTable.TYPE, new ItemStack[9]);
@@ -393,6 +424,15 @@ public final class Guide {
     }
 
     @Nonnull
+    private static ItemStack[] getDummyRodRecipe(ItemStack i3) {
+        return new ItemStack[]{
+            null, null, null,
+            i3, Parts.PART_TRIM_DUMMY, Parts.PART_LINE_DUMMY,
+            null, null, null
+        };
+    }
+
+    @Nonnull
     private static ItemStack[] getDummyArmourRecipe(ItemStack i3) {
         return new ItemStack[]{
             null, null, null,
@@ -408,6 +448,7 @@ public final class Guide {
         new UnplaceableBlock(ItemGroups.TOOLS, TOOL_AXE_DUMMY, DummyToolTable.TYPE, getDummyToolRecipe(Parts.PART_AXE_HEAD_DUMMY)).register(p);
         new UnplaceableBlock(ItemGroups.TOOLS, TOOL_HOE_DUMMY, DummyToolTable.TYPE, getDummyToolRecipe(Parts.PART_HOE_HEAD_DUMMY)).register(p);
         new UnplaceableBlock(ItemGroups.TOOLS, TOOL_SWORD_DUMMY, DummyToolTable.TYPE, getDummyToolRecipe(Parts.PART_SWORD_BLADE_DUMMY)).register(p);
+        new UnplaceableBlock(ItemGroups.TOOLS, TOOL_FISHING_ROD_DUMMY, DummyToolTable.TYPE, getDummyRodRecipe(Parts.PART_ROD_BASE_DUMMY)).register(p);
 
         new UnplaceableBlock(ItemGroups.ARMOUR, ARMOUR_INFO, DummyArmourTable.TYPE, new ItemStack[9]).register(p);
         new UnplaceableBlock(ItemGroups.ARMOUR, ARMOUR_HELMET_DUMMY, DummyArmourTable.TYPE, getDummyArmourRecipe(Parts.PART_HELM_PLATE_DUMMY)).register(p);
@@ -425,6 +466,7 @@ public final class Guide {
         EXP_AXE.register(p);
         EXP_HOE.register(p);
         EXP_SWORD.register(p);
+        ROD.register(p);
 
         HELM.register(p);
         CHEST.register(p);

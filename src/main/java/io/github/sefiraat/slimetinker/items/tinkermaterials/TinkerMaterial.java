@@ -1,5 +1,6 @@
 package io.github.sefiraat.slimetinker.items.tinkermaterials;
 
+import io.github.sefiraat.networks.utils.Theme;
 import io.github.sefiraat.slimetinker.SlimeTinker;
 import io.github.sefiraat.slimetinker.events.friend.EventFriend;
 import io.github.sefiraat.slimetinker.events.friend.TraitEventType;
@@ -56,6 +57,12 @@ public class TinkerMaterial {
     private MaterialTrait traitArmorGambeson;
     @Nullable
     private MaterialTrait traitArmorLinks;
+    @Nullable
+    private MaterialTrait traitRodBase;
+    @Nullable
+    private MaterialTrait traitRodTrim;
+    @Nullable
+    private MaterialTrait traitRodLine;
 
     //Forms
     @Nullable
@@ -78,6 +85,12 @@ public class TinkerMaterial {
     private String formChestplate;
     @Nullable
     private String formHelmet;
+    @Nullable
+    private String formBase;
+    @Nullable
+    private String formLine;
+    @Nullable
+    private String fromTrim;
 
     @Nullable
     private Alloy alloy;
@@ -126,6 +139,16 @@ public class TinkerMaterial {
         }
         if (this.traitArmorLinks != null && manager.getEnabled(this.id, Ids.LINKS)) {
             this.traitArmorLinks.setupTrait(this);
+        }
+
+        if (this.traitRodBase != null && manager.getEnabled(this.id, Ids.BASE)) {
+            this.traitRodBase.setupTrait(this);
+        }
+        if (this.traitRodTrim != null && manager.getEnabled(this.id, Ids.TRIM)) {
+            this.traitRodTrim.setupTrait(this);
+        }
+        if (this.traitRodLine != null && manager.getEnabled(this.id, Ids.TRIM)) {
+            this.traitRodLine.setupTrait(this);
         }
         manager.save();
     }
@@ -270,6 +293,43 @@ public class TinkerMaterial {
                 this.id
             ).register(plugin);
         }
+
+        //Rod base (sword head)
+        if (this.traitRodBase != null && traitManager.isEnabled(this.id, Ids.BASE)) {
+            new PartTemplate(
+                ItemGroups.PART_DICT,
+                baseStack(this.id),
+                DummySmeltery.TYPE,
+                basicRecipe(Casts.CAST_BASE, getLiquidItemStack(TinkerMaterialManager.AMOUNT_ROD_BASE)),
+                this.id
+            ).register(plugin);
+        }
+
+        //Rod trim (mail links)
+        if (this.traitRodTrim != null && traitManager.isEnabled(this.id, Ids.TRIM)) {
+            PartTemplate trim = new PartTemplate(
+                ItemGroups.DUMMY,
+                trimStack(this.id),
+                Workbench.TYPE,
+                trimRecipe(this.representativeStack),
+                this.id
+            );
+            trim.setHidden(true);
+            trim.register(plugin);
+        }
+
+        //Rod line (tool rod)
+        if (this.traitRodLine != null && traitManager.isEnabled(this.id, Ids.LINE)) {
+            PartTemplate line = new PartTemplate(
+                ItemGroups.DUMMY,
+                lineStack(this.id),
+                Workbench.TYPE,
+                lineRecipe(this.representativeStack),
+                this.id
+            );
+            line.setHidden(true);
+            line.register(plugin);
+        }
     }
 
     public TinkerMaterial setLiquidTexture(@Nonnull String liquidTexture) {
@@ -345,8 +405,56 @@ public class TinkerMaterial {
     }
 
     @Nullable
+    public MaterialTrait getTraitRodBase() {
+        return traitRodBase;
+    }
+
+    public TinkerMaterial setTraitRodBase(@Nullable MaterialTrait traitRodBase) {
+        this.traitRodBase = traitRodBase;
+        return this;
+    }
+
+    @Nullable
+    public MaterialTrait getTraitRodTrim() {
+        return traitRodTrim;
+    }
+
+    public TinkerMaterial setTraitRodTrim(@Nullable MaterialTrait traitRodTrim) {
+        this.traitRodTrim = traitRodTrim;
+        return this;
+    }
+
+    @Nullable
+    public MaterialTrait getTraitRodLine() {
+        return this.traitRodLine;
+    }
+
+    public TinkerMaterial setTraidRodLine(@Nullable MaterialTrait traitRodLine) {
+        this.traitRodLine = traitRodLine;
+        return this;
+    }
+
+    @Nullable
     public String getFormNugget() {
         return formNugget;
+    }
+
+    @Nullable
+    public TinkerMaterial setFormBase(@Nullable String formBase) {
+        this.formBase = formBase;
+        return this;
+    }
+
+    @Nullable
+    public TinkerMaterial setFormLine(@Nullable String formLine) {
+        this.formLine = formLine;
+        return this;
+    }
+
+    @Nullable
+    public TinkerMaterial setFormTrim(@Nullable String formTrim) {
+        this.fromTrim = formTrim;
+        return this;
     }
 
     public TinkerMaterial setFormNugget(@Nullable String formNugget) {
@@ -579,6 +687,57 @@ public class TinkerMaterial {
         );
     }
 
+    @Nonnull
+    private SlimefunItemStack baseStack(String name) {
+        String titName = ThemeUtils.toTitleCase(name);
+        return ThemeUtils.themedItemStack(
+            "PART_ROD_BASE_" + name,
+            SkullTextures.PART_SWORD_BLADE,
+            ThemeItemType.PART,
+            getColor() + titName + ThemeUtils.ITEM_PART + " Fishing Rod Base",
+            ThemeUtils.PASSIVE + "The base of a fishing rod",
+            "made out of " + titName + "."
+        );
+    }
+
+    @Nonnull
+    private SlimefunItemStack trimStack(String name) {
+        String titName = ThemeUtils.toTitleCase(name);
+        SlimefunItemStack i = ThemeUtils.themedItemStack(
+            "PART_TRIM_" + name,
+            SkullTextures.PART_LINKS,
+            ThemeItemType.PART,
+            getColor() + titName + ThemeUtils.ITEM_PART + " Trim",
+            ThemeUtils.PASSIVE + "A rod trim made of " + titName + "."
+        );
+
+        ItemMeta im = i.getItemMeta();
+
+        PersistentDataAPI.setString(im, Keys.PART_MATERIAL, name);
+        PersistentDataAPI.setString(im, Keys.PART_CLASS, Ids.TRIM);
+        i.setItemMeta(im);
+        return i;
+    }
+
+    @Nonnull
+    private SlimefunItemStack lineStack(String name) {
+        String titName = ThemeUtils.toTitleCase(name);
+        SlimefunItemStack i = ThemeUtils.themedItemStack(
+            "PART_TRIM_" + name,
+            SkullTextures.PART_TOOL_ROD,
+            ThemeItemType.PART,
+            getColor() + titName + ThemeUtils.ITEM_PART + " Line",
+            ThemeUtils.PASSIVE + "A rod line made of " + titName + "."
+        );
+
+        ItemMeta im = i.getItemMeta();
+
+        PersistentDataAPI.setString(im, Keys.PART_MATERIAL, name);
+        PersistentDataAPI.setString(im, Keys.PART_CLASS, Ids.LINE);
+        i.setItemMeta(im);
+        return i;
+    }
+
     private ItemStack[] basicRecipe(ItemStack i, ItemStack i2) {
         return new ItemStack[]{
             null, null, null,
@@ -600,6 +759,22 @@ public class TinkerMaterial {
             null, i, i,
             i, null, i,
             i, i, null
+        };
+    }
+
+    private ItemStack[] trimRecipe(ItemStack i) {
+        return new ItemStack[] {
+            null, i, null,
+            i, null, i,
+            null, i, null
+        };
+    }
+
+    private ItemStack[] lineRecipe(ItemStack i) {
+        return new ItemStack[] {
+            null, null, i,
+            null, null, i,
+            null, null, i
         };
     }
 

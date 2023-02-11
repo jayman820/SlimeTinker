@@ -6,5 +6,8 @@ public enum TraitPartType {
     ROD,
     PLATES,
     GAMBESON,
-    LINKS
+    LINKS,
+    BASE,
+    LINE,
+    TRIM
 }

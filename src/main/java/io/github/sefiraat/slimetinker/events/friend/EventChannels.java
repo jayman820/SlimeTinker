@@ -56,6 +56,45 @@ public final class EventChannels {
         return 20;
     }
 
+    public static void checkRod(EventFriend friend) {
+        ItemStack i = friend.getPlayer().getInventory().getItemInMainHand();
+
+        if (!ItemUtils.isRod(i)) {
+            return;
+        }
+
+        if (eventShouldCancelIfBroken(i, friend.getEventType())) {
+            friend.setActionTaken(true);
+            friend.setCancelEvent(true);
+            friend.getPlayer().sendMessage(ThemeUtils.WARNING + "Your rod is broken, you should really repair it!");
+            return;
+        }
+
+        friend.setActionTaken(true);
+        friend.setRod(i);
+        friend.setActiveFriendElement(ActiveFriendElement.ROD);
+
+        String matPropertyBase = ItemUtils.getBaseMaterial(i);
+        String matPropertyLine = ItemUtils.getLineMaterial(i);
+        String matPropertyTrim = ItemUtils.getTrimMaterial(i);
+
+        TinkerMaterial baseMaterial = TinkerMaterialManager.getMap().get(matPropertyBase);
+        TinkerMaterial lineMaterial = TinkerMaterialManager.getMap().get(matPropertyLine);
+        TinkerMaterial trimMaterial = TinkerMaterialManager.getMap().get(matPropertyTrim);
+
+        TraitManager manager = SlimeTinker.getInstance().getTraitManager();
+
+        if (baseMaterial != null && manager.isEnabled(matPropertyBase, Ids.BASE)) {
+            baseMaterial.runEvent(friend.getEventType(), TraitPartType.BASE, friend);
+        }
+        if (lineMaterial != null && manager.isEnabled(matPropertyLine, Ids.LINE)) {
+            lineMaterial.runEvent(friend.getEventType(), TraitPartType.LINE, friend);
+        }
+        if (trimMaterial != null && manager.isEnabled(matPropertyTrim, Ids.TRIM)) {
+            trimMaterial.runEvent(friend.getEventType(), TraitPartType.TRIM, friend);
+        }
+    }
+
     public static void checkTool(EventFriend friend) {
 
         ItemStack i = friend.getPlayer().getInventory().getItemInMainHand();
@@ -111,6 +150,7 @@ public final class EventChannels {
             checkBoots(friend);
         }
     }
+
 
     public static void checkHelm(EventFriend friend) {
 

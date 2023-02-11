@@ -1,0 +1,39 @@
+Fishing listener:
+https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerFishEvent.html
+
+Materials:
+Wood
+Cobble
+Coal
+Gold
+Copper
+Lapis
+Emerald
+Diamond
+Netherite
+Infinity Ingot
+String
+Vine
+Warped Vine
+Copper Wire
+
+Rod materials:
+Wood
+Cobble
+Copper
+Diamond
+Netherite
+Infinity ingot
+
+Trim materials:
+Coal
+Gold
+Copper
+Lapis
+Emerald
+
+Line materials:
+String
+Vine
+Warped Vine
+Copper Wire
