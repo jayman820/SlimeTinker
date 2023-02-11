@@ -102,7 +102,7 @@ public final class TickEvents {
         increaseEffect(PotionEffectType.LUCK, friend.getPotionEffects());
     }
 
-    public static void lineCopperWire(EventFriend friend) {
+    public static void lineEmerald(EventFriend friend) {
         friend.setPlayerExpMod(friend.getPlayerExpMod() + 4);
     }
 

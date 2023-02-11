@@ -147,7 +147,7 @@ public class TinkerMaterial {
         if (this.traitRodTrim != null && manager.getEnabled(this.id, Ids.TRIM)) {
             this.traitRodTrim.setupTrait(this);
         }
-        if (this.traitRodLine != null && manager.getEnabled(this.id, Ids.TRIM)) {
+        if (this.traitRodLine != null && manager.getEnabled(this.id, Ids.LINE)) {
             this.traitRodLine.setupTrait(this);
         }
         manager.save();
@@ -329,6 +329,7 @@ public class TinkerMaterial {
             );
             line.setHidden(true);
             line.register(plugin);
+            System.out.println("hello josh");
         }
     }
 
@@ -723,7 +724,7 @@ public class TinkerMaterial {
     private SlimefunItemStack lineStack(String name) {
         String titName = ThemeUtils.toTitleCase(name);
         SlimefunItemStack i = ThemeUtils.themedItemStack(
-            "PART_TRIM_" + name,
+            "PART_LINE_" + name,
             SkullTextures.PART_TOOL_ROD,
             ThemeItemType.PART,
             getColor() + titName + ThemeUtils.ITEM_PART + " Line",

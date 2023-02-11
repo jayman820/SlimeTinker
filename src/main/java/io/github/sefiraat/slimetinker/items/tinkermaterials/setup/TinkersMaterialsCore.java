@@ -70,7 +70,7 @@ public final class TinkersMaterialsCore {
     public static final TinkerMaterial EMERALD = new TinkerMaterial(Ids.EMERALD, new ItemStack(Material.EMERALD), "#ffffff")
         .setFormTrim(Material.EMERALD.toString())
         .setTraitRodTrim(Traits.CORE_EMERALD_TRIM)
-        .setTraidRodLine(Traits.CORE_COPPER_WIRE_LINE)
+        .setTraidRodLine(Traits.CORE_EMERALD_LINE)
         .build();
 
     //public static final TinkerMaterial COPPER_WIRE = new TinkerMaterial(Ids.COPPER_WIRE, SlimefunItems.COPPER_WIRE, "#fffffe")

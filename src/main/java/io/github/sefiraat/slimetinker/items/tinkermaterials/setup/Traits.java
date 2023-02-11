@@ -2724,14 +2724,14 @@ public final class Traits {
         )
         .addConsumer(TraitEventType.TICK, TickEvents::trimEmerald);
 
-    public static final MaterialTrait CORE_COPPER_WIRE_LINE = new MaterialTrait()
+    public static final MaterialTrait CORE_EMERALD_LINE = new MaterialTrait()
         .setPartType(MaterialTrait.PROP_LINE)
         .setAddedBy(SupportedPluginsManager.CORE_NOTE)
         .setTraitName("Knowledgable")
         .setLore(
             "+50% EXP"
         )
-        .addConsumer(TraitEventType.TICK, TickEvents::lineCopperWire);
+        .addConsumer(TraitEventType.TICK, TickEvents::lineEmerald);
 
     // endregion
 

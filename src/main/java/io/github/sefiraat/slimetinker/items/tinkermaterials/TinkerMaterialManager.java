@@ -138,6 +138,10 @@ public class TinkerMaterialManager {
             TinkerMaterial cm = entry.getValue();
             String id = entry.getKey();
 
+            //TODO:PUT BASE HERE
+
+
+
             // Tools, armour and kits (referenced through dummy)
             if (cm.getTraitToolRod() != null && traitManager.isEnabled(id, Ids.ROD)) {
                 MAP_CAST_TOOLROD.put(cm, Parts.TOOL_ROD.getStack(id, Ids.ROD, null, cm.getColor()));
@@ -177,12 +181,17 @@ public class TinkerMaterialManager {
                 );
             }
 
+            if (cm.getTraitRodBase() != null || traitManager.isEnabled(id, Ids.BASE)) {
+                MAP_CAST_BASE.put(cm, Parts.ROD_BASE.getStack(id, Ids.ROD, null, cm.getColor()));
+            }
+
             if (cm.getTraitToolHead() != null || cm.getTraitArmorPlates() != null) {
                 MAP_CAST_REPAIRKIT.put(
                     cm,
                     Parts.REPAIR_KIT.getStack(id, Ids.REPAIR, cm.getColor())
                 ); // We use HEAD here are repair always goes by head material
             }
+
 
             // Gems
             if (cm.getFormGem() != null) {
